@@ -67,37 +67,3 @@ resource "aws_iam_openid_connect_provider" "elk" {
   thumbprint_list = [data.tls_certificate.elk.certificates[0].sha1_fingerprint]
   url             = aws_eks_cluster.elk.identity[0].oidc[0].issuer
 }
-
-data "aws_iam_policy_document" "elk_assume_role_policy" {
-  statement {
-    actions = ["sts:AssumeRoleWithWebIdentity"]
-    effect  = "Allow"
-
-    condition {
-      test     = "StringEquals"
-      variable = "${replace(aws_iam_openid_connect_provider.elk.url, "https://", "")}:sub"
-      values   = ["system:serviceaccount:kube-system:aws-node"]
-    }
-
-    principals {
-      identifiers = [aws_iam_openid_connect_provider.elk.arn]
-      type        = "Federated"
-    }
-  }
-}
-
-# resource "aws_iam_role" "elk" {
-#   assume_role_policy = data.aws_iam_policy_document.elk_assume_role_policy.json
-#   name               = "elk"
-# }
-
-resource "aws_iam_policy" "elk-ServiceAccount" {
-  name   = "elk-ServiceAccount"
-  path   = "/"
-  policy = data.aws_iam_policy_document.elk_assume_role_policy.json
-}
-
-resource "aws_iam_role_policy_attachment" "elk-ServiceAccount" {
-  policy_arn = aws_iam_policy.elk-ServiceAccount.arn
-  role       = aws_iam_role.elk.name
-}

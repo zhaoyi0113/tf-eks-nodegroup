@@ -2,7 +2,7 @@ resource "random_string" "suffix" {
   length  = 8
   special = false
 }
-
+data "aws_availability_zones" "available" {}
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "2.66.0"
@@ -18,18 +18,15 @@ module "vpc" {
 
   tags = {
     "kubernetes.io/cluster/${var.eks_cluster_name}" = "shared"
-    COMPONENT_NAME                                  = var.component_name
   }
 
   public_subnet_tags = {
     "kubernetes.io/cluster/${var.eks_cluster_name}" = "shared"
     "kubernetes.io/role/elb"                        = "1"
-    COMPONENT_NAME                                  = var.component_name
   }
 
   private_subnet_tags = {
     "kubernetes.io/cluster/${var.eks_cluster_name}" = "shared"
     "kubernetes.io/role/internal-elb"               = "1"
-    COMPONENT_NAME                                  = var.component_name
   }
 }
