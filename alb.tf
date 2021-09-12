@@ -16,7 +16,8 @@ data "aws_iam_policy_document" "alb_assume_role_policy" {
   }
 }
 
-resource "aws_iam_role" "alb-ServiceAccount" {
+resource "aws_iam_role" "alb_ServiceAccount" {
+  name               = "elk-alb-service-account"
   assume_role_policy = data.aws_iam_policy_document.alb_assume_role_policy.json
 
   inline_policy {
@@ -32,4 +33,8 @@ resource "aws_iam_role" "alb-ServiceAccount" {
       ]
     })
   }
+}
+
+output "elk-alb-service-account-role" {
+  value = aws_iam_role.alb_ServiceAccount.arn
 }
