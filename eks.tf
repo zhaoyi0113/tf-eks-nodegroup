@@ -15,6 +15,10 @@ resource "aws_eks_cluster" "elk" {
     aws_iam_role_policy_attachment.elk-AmazonEKSVPCResourceController,
     aws_cloudwatch_log_group.elk,
   ]
+
+  tags = {
+    "COMPONENT_NAME"                                        = "elk"
+  }
 }
 
 resource "aws_iam_role" "elk" {

@@ -23,3 +23,8 @@ variable "api_name" {
   type    = string
   default = "elk"
 }
+
+variable "node_size" {
+  type    = string
+  default = "t3.large"
+}
