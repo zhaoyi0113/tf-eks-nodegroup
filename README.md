@@ -36,4 +36,8 @@ kubectl annotate serviceaccount cluster-autoscaler \
 kubectl patch deployment cluster-autoscaler \
   -n kube-system \
   -p '{"spec":{"template":{"metadata":{"annotations":{"cluster-autoscaler.kubernetes.io/safe-to-evict": "false"}}}}}'
+
+kubectl set image deployment cluster-autoscaler \
+  -n kube-system \
+  cluster-autoscaler=k8s.gcr.io/autoscaling/cluster-autoscaler:v1.20.0
 ```
