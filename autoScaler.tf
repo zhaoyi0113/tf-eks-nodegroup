@@ -10,8 +10,8 @@ data "aws_iam_policy_document" "auto_scaler_assume_role_policy" {
   }
 }
 
-resource "aws_iam_role" "alb_ServiceAccount" {
-  name               = "elk-alb-service-account"
+resource "aws_iam_role" "auto_scaler_service_account" {
+  name               = "elk-auto-scaler-service-account"
   assume_role_policy = data.aws_iam_policy_document.auto_scaler_assume_role_policy.json
 
   inline_policy {
@@ -34,3 +34,8 @@ resource "aws_iam_role" "alb_ServiceAccount" {
     })
   }
 }
+
+output "elk-auto-scaller-service-account-role" {
+  value = aws_iam_role.auto_scaler_service_account.arn
+}
+
