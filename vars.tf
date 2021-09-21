@@ -26,5 +26,5 @@ variable "api_name" {
 
 variable "node_size" {
   type    = string
-  default = "t3.large"
+  default = "t3.xlarge"
 }
