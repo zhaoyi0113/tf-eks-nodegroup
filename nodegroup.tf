@@ -3,7 +3,7 @@ resource "aws_eks_node_group" "elk" {
   node_group_name = "elk"
   node_role_arn   = aws_iam_role.nodegroup.arn
   subnet_ids      = [module.vpc.private_subnets[0], module.vpc.private_subnets[1]]
-  instance_types  = [var.node_size]
+  instance_types  = var.node_size
 
   scaling_config {
     desired_size = 1
