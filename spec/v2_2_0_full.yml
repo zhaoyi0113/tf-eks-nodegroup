@@ -785,7 +785,7 @@ spec:
     spec:
       containers:
       - args:
-        - --cluster-name=elk
+        - --cluster-name=monitor
         - --ingress-class=alb
         image: amazon/aws-alb-ingress-controller:v2.2.0
         livenessProbe:

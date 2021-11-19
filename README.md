@@ -4,11 +4,12 @@
 
 ## deploy alb controller
 
-- replace Service-Account-Role-Arn with real value
-- kubectl apply -f spec/serviceAccount.yml
+```bash
+- kubectl apply -f spec/serviceAccount.yml # replace Service-Account-Role-Arn with real value which is generated from alb_service_account in alb.tf
 - kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.1.1/cert-manager.yaml
-- replace Your-Cluster-Name with real value
-- kubectl apply -f spec/v2_2_0_full.yml
+- 
+- kubectl apply -f spec/v2_2_0_full.yml # replace Your-Cluster-Name with real value
+```
 
 ## deploy ebs
 
@@ -28,7 +29,7 @@ helm upgrade -install aws-ebs-csi-driver aws-ebs-csi-driver/aws-ebs-csi-driver \
 ## deplo auto scaler
 
 ```bash
-kubectl apply -f spec/autoScaler.yml
+kubectl apply -f spec/autoScaler.yml # update cluster name in --node-group-auto-discovery=
 kubectl annotate serviceaccount cluster-autoscaler \
   -n kube-system \
   eks.amazonaws.com/role-arn=arn:aws:iam::<ACCOUNT_ID>:role/<AmazonEKSClusterAutoscalerRole>
