@@ -1,6 +1,6 @@
 ## deploy eks cluster
 
-- terraform apply
+- sh deploy.sh
 
 ## deploy alb controller
 
@@ -32,7 +32,7 @@ helm upgrade -install aws-ebs-csi-driver aws-ebs-csi-driver/aws-ebs-csi-driver \
 kubectl apply -f spec/autoScaler.yml # update cluster name in --node-group-auto-discovery=
 kubectl annotate serviceaccount cluster-autoscaler \
   -n kube-system \
-  eks.amazonaws.com/role-arn=arn:aws:iam::<ACCOUNT_ID>:role/<AmazonEKSClusterAutoscalerRole>
+  eks.amazonaws.com/role-arn=arn:aws:iam::264100014405:role/elk-auto-scaler-service-account
 
 kubectl patch deployment cluster-autoscaler \
   -n kube-system \
