@@ -7,9 +7,9 @@ resource "aws_eks_node_group" "elk" {
   disk_size       = 20
 
   scaling_config {
-    desired_size = 3
+    desired_size = 4
     max_size     = 6
-    min_size     = 2
+    min_size     = 4
   }
 
   update_config {
@@ -43,6 +43,20 @@ resource "aws_iam_role" "nodegroup" {
     }]
     Version = "2012-10-17"
   })
+
+  inline_policy {
+
+    policy = jsonencode({
+      Version = "2012-10-17"
+      Statement = [
+        {
+          Action   = ["logs:*"]
+          Effect   = "Allow"
+          Resource = "*"
+        },
+      ]
+    })
+  }
 }
 
 resource "aws_iam_role_policy_attachment" "nodegroup-AmazonEKSWorkerNodePolicy" {
@@ -58,4 +72,29 @@ resource "aws_iam_role_policy_attachment" "nodegroup-AmazonEKS_CNI_Policy" {
 resource "aws_iam_role_policy_attachment" "nodegroup-AmazonEC2ContainerRegistryReadOnly" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
   role       = aws_iam_role.nodegroup.name
+}
+
+
+resource "aws_iam_policy" "nodegroup-log-policy" {
+  description = "A test policy"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "logs:*"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy_attachment" "nodegroup-log-policy" {
+  role       = aws_iam_role.nodegroup.name
+  policy_arn = aws_iam_policy.nodegroup-log-policy.arn
 }
