@@ -60,29 +60,29 @@ resource "aws_cloudwatch_log_group" "elk" {
   retention_in_days = 7
 }
 
-resource "aws_iam_policy" "elk-log-policy" {
-  description = "A test policy"
+# resource "aws_iam_policy" "elk-log-policy" {
+#   description = "A test policy"
 
-  policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": [
-        "logs:*"
-      ],
-      "Effect": "Allow",
-      "Resource": "*"
-    }
-  ]
-}
-EOF
-}
+#   policy = <<EOF
+# {
+#   "Version": "2012-10-17",
+#   "Statement": [
+#     {
+#       "Action": [
+#         "logs:*"
+#       ],
+#       "Effect": "Allow",
+#       "Resource": "*"
+#     }
+#   ]
+# }
+# EOF
+# }
 
-resource "aws_iam_role_policy_attachment" "elk-log-policy" {
-  role       = aws_iam_role.elk.name
-  policy_arn = aws_iam_policy.elk-log-policy.arn
-}
+# resource "aws_iam_role_policy_attachment" "elk-log-policy" {
+#   role       = aws_iam_role.elk.name
+#   policy_arn = aws_iam_policy.elk-log-policy.arn
+# }
 
 # Enabling IAM Roles for Service Accounts
 
